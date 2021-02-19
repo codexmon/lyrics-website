@@ -56,40 +56,43 @@
 //             // console.log(status, e); //always check to see how things look in the first place
 //             $(".display-lyrics").html("<p>Please enter a valid song or artist</p>");
 //         }
-//     }); 
+//     });
 // });
 // });
 
 //Fetch Method
-$(document).ready(function(){
-   
-    $("#find-lyrics").on("submit", function(e){
-        //Listening for a submit event, need to prevent the default
-         e.preventDefault(); // parentheses necessary for methods
-         $(".display-lyrics").text("loading...");
-         var artist = $("#artist").val();
-         var title = $("#title").val();
-         var url = "https://api.lyrics.ovh/v1/" + artist + "/" + title + ""; //optional to end with variable or with double quotes to close the string
+$(document).ready(function () {
+  $("#find-lyrics").on("submit", function (e) {
+    //Listening for a submit event, need to prevent the default
+    e.preventDefault(); // parentheses necessary for methods
+    $(".display-lyrics").text("loading...");
+    var artist = $("#artist").val();
+    var title = $("#title").val();
+    var url = "https://api.lyrics.ovh/v1/" + artist + "/" + title + ""; //optional to end with variable or with double quotes to close the string
 
-        fetch(url).then(function(response){ // ES5
+    fetch(url)
+      .then(function (response) {
+        // ES5
 
         // fetch(url).then(response =>{ //ES6
 
-            var processedLyrics = response.json();
-            return processedLyrics;
-        })
-        .then(function(processedLyrics) {
-            $(".display-lyrics").html("<p>" + processedLyrics.lyrics + "</p>");
-            // if there is poor API documentation and we do not know what the name of the array is (e.g., "message" in this case), then we would need to:
-            //console.log(processedResponse);
-        })
-        .catch(function(error){ //.catch at the end of all .then() because you can have as many .then() as you want
+        var processedLyrics = response.json();
+        return processedLyrics;
+      })
+      .then(function (processedLyrics) {
+        $(".display-lyrics")
+          .show()
+          .html("<p>" + processedLyrics.lyrics + "</p>");
+        // if there is poor API documentation and we do not know what the name of the array is (e.g., "message" in this case), then we would need to:
+        //console.log(processedResponse);
+      })
+      .catch(function (error) {
+        //.catch at the end of all .then() because you can have as many .then() as you want
 
-            // fetch(url).then(error =>{ //ES6
+        // fetch(url).then(error =>{ //ES6
 
-            console.log(error);
-            alert("Please enter a valid song/artist");
-        });
-    });
-
+        console.log(error);
+        alert("Please enter a valid song/artist");
+      });
+  });
 });
